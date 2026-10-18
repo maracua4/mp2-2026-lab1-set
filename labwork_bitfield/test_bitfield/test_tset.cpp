@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include <sstream>
 #include "../labwork_bitfield/tset.h"
 
 
@@ -295,4 +295,27 @@ TEST(TSet, check_negation_operator)
 	expSet.InsElem(2);
 
 	EXPECT_EQ(expSet, set1);
+}
+// Свой тест
+TEST(TSet, minus_element_remove_it_and_keeps_original) {
+	TSet a(10);
+	a.InsElem(2);
+	a.InsElem(5);
+
+	TSet expected(10);
+	expected.InsElem(2);
+
+	EXPECT_EQ(expected, a - 5);
+}
+
+TEST(TSet, input_reads_elements_from_stream) {
+	TSet a(10);
+	a.InsElem(2);
+	a.InsElem(5);
+
+	TSet s(10);
+	std::istringstream in("2 5");
+	in >> s;
+
+	EXPECT_EQ(a, s);
 }

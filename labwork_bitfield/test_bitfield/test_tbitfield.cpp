@@ -1,5 +1,5 @@
 #include "pch.h"
-
+#include <sstream>
 #include "../labwork_bitfield/tbitfield.h"
 
 
@@ -309,4 +309,28 @@ TEST(TBitField, bitfields_with_different_bits_are_not_equal)
     bf2.SetBit(2);
 
     EXPECT_NE(bf1, bf2);
+}
+// Свой тест
+TEST(TBitField, copy_is_independent_of_original) {
+    TBitField a(40);
+    a.SetBit(5);
+
+    TBitField expected(40);
+    expected.SetBit(5);
+
+    TBitField b(a);
+    b.SetBit(30);
+
+    EXPECT_EQ(expected, a);
+}
+
+TEST(TBitField, output_prints_bits_in_order) {
+    TBitField a(5);
+    a.SetBit(0);
+    a.SetBit(3);
+
+    std::ostringstream out;
+    out << a;
+
+    EXPECT_EQ("10010", out.str());
 }
