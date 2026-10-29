@@ -20,6 +20,9 @@ TBitField::TBitField(int len)
     size_t BitInElem = sizeof(TELEM) * 8;
     MemLen = (len + BitInElem - 1) / BitInElem;
     pMem = new TELEM[MemLen];
+    if (pMem == nullptr) {
+        throw "Memory allocation failed";
+    }
     memset(pMem, 0, MemLen * sizeof(TELEM));
 }
 
@@ -28,12 +31,16 @@ TBitField::TBitField(const TBitField& bf) // конструктор копиро
     MemLen = bf.MemLen;
     BitLen = bf.BitLen;
     pMem = new TELEM[MemLen];
+    if (pMem == nullptr) {
+        throw "Memory allocation failed";
+    }
     memcpy(pMem, bf.pMem, MemLen * sizeof(TELEM));
 }
 
 TBitField::~TBitField()
 {
     delete[] pMem;
+    pMem = nullptr;
 }
 
 int TBitField::GetMemIndex(const int n) const // индекс Мем для бита n
